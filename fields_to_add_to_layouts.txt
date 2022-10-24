@@ -1,0 +1,20 @@
+The following fields should be, at minumum, added to the layout
+
+Recurring Donation:
+- Payment Method (and remove npsp4hub__Payment_Method__c)
+- Payment Processor
+- Target
+- Mandate
+- Payment Profile
+
+Opportuntiy
+- Payment Method (and remove npsp4hub__Payment_Method__c)
+- Payment Processor
+- Target
+- Mandate
+- Payment Profile
+
+Related Lists
+Payment Profile to Account and Contact
+
+For a bit more detail: https://docs.findock.com/configuring-findock-for-npsp

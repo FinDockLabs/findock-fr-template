@@ -1,0 +1,202 @@
+minimum_cumulusci_version: '3.62.0'
+project:
+    name: findock-fr-template
+    package:
+        name: findock-fr-template
+        api_version: '55.0'
+    dependencies:
+        - github: 'https://github.com/SalesforceFoundation/NPSP'
+        - namespace: cpm
+          version: 3.259
+        - namespace: proh
+          version: 2.34
+        - namespace: npsp4hub
+          version: 1.156
+        - namespace: paysepa
+          version: 1.61
+        - namespace: phstr
+          version: 1.39
+
+    git:
+        default_branch: 'main'
+        repo_url: https://github.com/SFDO-Alliances/findock-fr-template
+sources:
+    npsp:
+        github: https://github.com/SalesforceFoundation/NPSP
+
+plans: 
+    deploy_demo:
+            slug: install
+            title: Install FinDock and Demo Environment
+            tier: primary
+            is_listed: True
+            steps:
+                1: 
+                    task: unschedule_apex
+                    ui_options: 
+                        name: Unschedule Scheduled Apex Jobs
+                        is_required: False
+                        is_recomended: True
+                2: 
+                    task: update_dependencies
+                    ui_options: 
+                        name: Install/Update FinDock
+                3:
+                    task: findock_assign_permissionsets
+                    ui_options: 
+                        name: Assign FinDock Permission Sets
+                        is_required: True
+                        is_recomended: True
+                4:
+                    task: findock_initialsetup
+                    ui_options: 
+                        name: Run Initial FinDock Setup
+                        is_required: True
+                        is_recomended: True
+                5:
+                    task: dx_convert_from
+                    ui_options: 
+                        name: Convert Unmanaged Source
+                6:
+                    task: deploy
+                    ui_options: 
+                        name: Deploy Extra Configuration (Bot Actions, Page Layouts, etc)
+                        is_required: False
+                        is_recomended: False
+                7:
+                    task: update_admin_profile
+                    ui_options: 
+                        name: Update Profile
+                8:
+                    task: findock_load_demodata
+                    ui_options: 
+                        name: Load FinDock Demo Data
+                        is_required: True
+                        is_recomended: True
+
+flows:
+
+        deploy_unmanaged_ee:
+            steps:
+                6:
+                    task: None
+
+        config_dev:
+            steps:
+                3:
+                    flow: npsp:config_managed
+                4:
+                    flow: configure_findock         
+        config_qa:
+            steps:
+                3:
+                    flow: npsp:config_managed
+                4:
+                    flow: configure_findock 
+        configure_findock:
+            steps:
+                1:
+                    task: findock_activate_packages
+                2:
+                    task: findock_activate_payment_methods
+                3:
+                    task: findock_set_npsp_as_default_source
+                4:
+                    task: findock_set_default_config
+                5:
+                    task: findock_set_default_processinghub_config
+                6: 
+                    task: findock_create_sepa_target
+                7:
+                    task: findock_deploy_unpackaged
+                8:
+                    task: findock_deploy_config
+                9:
+                    task: batch_apex_wait
+                    options:
+                        class_name: DeploySetupBatch
+tasks:
+    robot:
+        options:
+            suites: robot/findock-fr-template-build/tests
+            options:
+                outputdir: robot/findock-fr-template-build/results
+
+    robot_testdoc:
+        options:
+            path: robot/findock-fr-template-build/tests
+            output: robot/findock-fr-template-build/doc/findock-fr-template-build_tests.html
+
+    run_tests:
+        options:
+            required_org_code_coverage_percent: 75
+            
+    findock_assign_permissionsets: 
+        description: 'Runs Anonymous Apex to create initial setup for FinDock'
+        group: FinDock
+        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
+        options:
+            path: scripts/configure_findock.cls
+            apex: assignPermissionSets();
+
+    findock_activate_packages:
+        description: 'Runs Anonymous Apex to active installed FinDock Packages'
+        group: FinDock
+        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
+        options:
+            path: scripts/configure_findock.cls
+            apex: activatePackages();
+    findock_activate_payment_methods:
+        description: 'Runs Anonymous Apex to active all Payment Methods'
+        group: FinDock
+        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
+        options:
+            path: scripts/configure_findock.cls
+            apex: activatePaymentMethods();
+    findock_set_npsp_as_default_source:
+        description: 'Runs Anonymous Apex to set NPSP as default source connector'
+        group: FinDock
+        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
+        options:
+            path: scripts/configure_findock.cls
+            apex: setDefaultSourceConnector('PaymentHub-for-NPSP');
+    findock_set_default_config:
+        description: 'Runs Anonymous Apex to set default FinDock config'
+        group: FinDock
+        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
+        options:
+            path: scripts/configure_findock.cls
+            apex: setDefaultConfig();
+    findock_deploy_unpackaged:
+        group: FinDock
+        description: Deploy unmanaged tabs and associated permission set
+        class_path: cumulusci.tasks.salesforce.Deploy
+        options:
+            path: unpackaged/findock
+    findock_set_default_processinghub_config:
+        group: FinDock
+        description: Creates the needed Chatter group and updates config
+        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
+        options:
+            path: scripts/configure_processinghub.cls
+            apex: configureProcessingHub();
+    findock_create_sepa_target:
+        group: FinDock
+        description: Creates a SEPA target with given name including GM Rules
+        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
+        options:
+            path: scripts/configure_processinghub.cls
+            apex: createSepaTarget('Sepa Bank');
+    findock_deploy_config:
+        description: 'Deploys FinDock Picklists'
+        group: FinDock
+        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
+        options: 
+            apex: >
+                cpm.CPM_Setup c = new cpm.CPM_Setup();
+                cpm.CheckDeployConfigController con = new cpm.CheckDeployConfigController();
+                con.parentController=c;
+                con.startDeploy();
+    get_dependencies_findock:
+        description: Gets FinDock Dependency List
+        class_path: tasks.ImportDependencies.GetDependencies
