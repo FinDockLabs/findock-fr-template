@@ -1,0 +1,92 @@
+{
+    "product": {
+        "title": {
+            "message": "Findock Demo Template",
+            "description": "name of product"
+        },
+        "short_description": {
+            "message": "Findock package for demos",
+            "description": "tagline of product"
+        },
+        "description": {
+            "message": "FinDock is a Customer Payment Management platform. Enabling your demo org to demo the services from various payment providers, directly from Salesforce. This package is configured to enable the following features:\r\n\r\n- Direct Debit Processing\r\n- Bank File Reconciliation\r\n- Giving Pages\r\n- Payment Processing through Stripe\r\n- Gift Aid\r\n\r\nNOTE: If you are installing this package into a Salesforce org which is NOT the Nonprofit IDO, then uncheck the checkbox called Recommended in the \"Deploy Page Layouts\" step.",
+            "description": "shown on product detail page (markdown)"
+        },
+        "error_message": {
+            "message": "An error has occurred. If you continue to see this error, please reach out to Stewart Anderson (stewart.anderson@salesforce.com) for additional support.\r\n\r\nNOTE: If you are installing this package into a Salesforce org which is NOT the Nonprofit IDO, then uncheck the checkbox called Recommended in the \"Deploy Page Layouts\" step.",
+            "description": "shown after failed installation (markdown)"
+        }
+    },
+    "plan:deploy_demo": {
+        "title": {
+            "message": "Install FinDock and Demo Environment",
+            "description": "title of installation plan"
+        }
+    },
+    "steps": {
+        "Unschedule Scheduled Apex Jobs": {
+            "message": "Unschedule Scheduled Apex Jobs",
+            "description": "title of installation step"
+        },
+        "Convert Unmanaged Source": {
+            "message": "Convert Unmanaged Source",
+            "description": "title of installation step"
+        },
+        "Update package.xml": {
+            "message": "Update package.xml",
+            "description": "title of installation step"
+        },
+        "Deploy Unmanaged Source": {
+            "message": "Deploy Unmanaged Source",
+            "description": "title of installation step"
+        },
+        "Initial Findock Setup Configuration": {
+            "message": "Initial Findock Setup Configuration",
+            "description": "title of installation step"
+        },
+        "Deploy unpackaged/pre/account_record_types": {
+            "message": "Deploy unpackaged/pre/account_record_types",
+            "description": "title of installation step"
+        },
+        "Deploy unpackaged/pre/opportunity_record_types": {
+            "message": "Deploy unpackaged/pre/opportunity_record_types",
+            "description": "title of installation step"
+        },
+        "Install {product} {version}": {
+            "message": "Install {product} {version}",
+            "description": "title of installation step"
+        },
+        "Deploy unpackaged/post/first": {
+            "message": "Deploy unpackaged/post/first",
+            "description": "title of installation step"
+        },
+        "Assign FinDock Permission Sets": {
+            "message": "Assign FinDock Permission Sets",
+            "description": "title of installation step"
+        },
+        "Run Initial FinDock Setup": {
+            "message": "Run Initial FinDock Setup",
+            "description": "title of installation step"
+        },
+        "Load FinDock Demo Data": {
+            "message": "Load FinDock Demo Data",
+            "description": "title of installation step"
+        },
+        "Deploy Page Layouts": {
+            "message": "Deploy Page Layouts",
+            "description": "title of installation step"
+        },
+        "Deploy Page Layouts and Apex Code": {
+            "message": "Deploy Page Layouts and Apex Code",
+            "description": "title of installation step"
+        },
+        "Deploy Extra Configuration (Bot Actions, Page Layouts, etc)": {
+            "message": "Deploy Extra Configuration (Bot Actions, Page Layouts, etc)",
+            "description": "title of installation step"
+        },
+        "Update Profile": {
+            "message": "Update Profile",
+            "description": "title of installation step"
+        }
+    }
+}
