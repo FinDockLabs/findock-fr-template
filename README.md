@@ -39,3 +39,11 @@ processing the recurring payment with a Payment Schedule. Including how to autom
 reconciling the SEPA DD with a pain.002 file (customers also often use CAMT files for this, but this is more direct)
 following up on the failed payment with an email containing a paylink to recover the failed donation money
 Let me know if you have any questions and in case you also want up to set up a Credit Card flow for demos for instance
+
+
+
+Question:
+- NPSP mapping from RD / Opp is their any additional mapping to be done?
+- New RD Findock postion - use NPSP internal form? or use the std page layout?
+
+
