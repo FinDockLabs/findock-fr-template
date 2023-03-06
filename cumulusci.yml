@@ -7,15 +7,15 @@ project:
     dependencies:
         - github: 'https://github.com/SalesforceFoundation/NPSP'
         - namespace: cpm
-          version: 3.259
+          version: 3.352
         - namespace: proh
-          version: 2.34
+          version: 2.35
         - namespace: npsp4hub
-          version: 1.156
+          version: 1.160
         - namespace: paysepa
-          version: 1.61
+          version: 1.64
         - namespace: phstr
-          version: 1.39
+          version: 1.55
 
     git:
         default_branch: 'main'
