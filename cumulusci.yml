@@ -11,7 +11,7 @@ project:
         - namespace: proh
           version: 2.35
         - namespace: npsp4hub
-          version: 1.160
+          version: "1.160"
         - namespace: paysepa
           version: 1.64
         - namespace: phstr
